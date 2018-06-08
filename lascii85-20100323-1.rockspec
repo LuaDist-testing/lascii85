@@ -1,16 +1,16 @@
 -- This file was automatically generated for the LuaDist project.
 
 package="lascii85"
-version="20070627-1"
+version="20100323-1"
 -- LuaDist source
 source = {
-  tag = "20070627-1",
+  tag = "20100323-1",
   url = "git://github.com/LuaDist-testing/lascii85.git"
 }
 -- Original source
 -- source = {
 --    url = "http://www.tecgraf.puc-rio.br/~lhf/ftp/lua//5.1/lascii85.tar.gz",
---    md5 = "109cc5758a1e956ffae8031e22abf83f",
+--    md5="e5987d2c31795dc572640e8c363ad553",
 --    dir = "ascii85"
 -- }
 description = {

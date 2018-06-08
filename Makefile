@@ -1,7 +1,7 @@
 # makefile for ascii85 library for Lua
 
 # change these to reflect your Lua installation
-LUA= /tmp/lhf/lua-5.1.2
+LUA= /tmp/lhf/lua-5.1.4
 LUAINC= $(LUA)/src
 LUALIB= $(LUA)/src
 LUABIN= $(LUA)/src
@@ -17,12 +17,13 @@ CC= gcc
 CFLAGS= $(INCS) $(WARN) -O2 $G
 WARN= -ansi -pedantic -Wall
 INCS= -I$(LUAINC)
+MAKESO= $(CC) -shared
+#MAKESO= env MACOSX_DEPLOYMENT_TARGET=10.3 $(CC) -bundle -undefined dynamic_lookup
 
 MYNAME= ascii85
 MYLIB= l$(MYNAME)
-
-OBJS= $(MYLIB).o
 T= $(MYNAME).so
+OBJS= $(MYLIB).o
 TEST= test.lua
 
 all:	test
@@ -35,7 +36,7 @@ o:	$(MYLIB).o
 so:	$T
 
 $T:	$(OBJS)
-	$(CC) -o $@ -shared $(OBJS)
+	$(MAKESO) -o $@ $(OBJS)
 
 clean:
 	rm -f $(OBJS) $T core core.*
@@ -46,20 +47,20 @@ doc:
 
 # distribution
 
-FTP= $(HOME)/public/ftp/lua/5.1
+FTP= www:www/ftp/lua/5.1
+F= http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/5.1/$A
 D= $(MYNAME)
 A= $(MYLIB).tar.gz
 TOTAR= Makefile,README,$(MYLIB).c,test.lua
 
-tar:	clean
+distr:	clean
 	tar zcvf $A -C .. $D/{$(TOTAR)}
-
-distr:	tar
 	touch -r $A .stamp
-	mv $A $(FTP)
+	scp -p $A $(FTP)
 
 diff:	clean
-	tar zxf $(FTP)/$A
+	wget -q -N $F
+	tar zxf $A
 	diff $D .
 
 # eof
